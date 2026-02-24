@@ -7,3 +7,4 @@
 - 访问 `docs/index.md` 了解站点结构，四个语言入口位于 `docs/{language}/README.md`。
 - 定时任务配置位于 `.github/workflows/daily-learning.yml`，可手动使用 workflow_dispatch 立即生成当日文档。
 - `.github/workflows/daily-feedback.yml` 会在每天 UTC 00:00 汇总前一日反馈并生成下一日的计划模板，避免与 07:00 的当日文档生成冲突。
+- GitHub Pages 发布由 `.github/workflows/pages-deploy.yml` 负责，在上述两个定时任务成功完成后自动构建并部署 `docs/` 目录，无需额外触发。

@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 jobs:
   summarize-and-plan:
@@ -85,13 +84,3 @@ EOF
           else
             echo "No new plans generated."
           fi
-
-      - name: Trigger GitHub Pages build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          curl -L -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            https://api.github.com/repos/${{ github.repository }}/pages/builds
