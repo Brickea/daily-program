@@ -1,0 +1,86 @@
+name: Daily Feedback Summary
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  summarize-and-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Prepare git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Summarize feedback and plan next day
+        id: plan
+        env:
+          TZ: UTC
+        run: |
+          set -euo pipefail
+          languages=(java python go ruby)
+          yesterday=$(date -u -d "yesterday" +%Y-%m-%d)
+          tomorrow=$(date -u -d "tomorrow" +%Y-%m-%d)
+
+          for lang in "${languages[@]}"; do
+            dir="docs/${lang}/daily"
+            mkdir -p "$dir"
+
+            summary_file="$dir/${tomorrow}.md"
+            yesterday_file="$dir/${yesterday}.md"
+
+            if [ -f "$summary_file" ]; then
+              echo "Plan for ${lang} on ${tomorrow} already exists; skipping."
+              continue
+            fi
+
+            case "$lang" in
+              java) lang_title="Java" ;;
+              python) lang_title="Python" ;;
+              go) lang_title="Go" ;;
+              ruby) lang_title="Ruby" ;;
+              *) lang_title="$lang" ;;
+            esac
+
+            cat > "$summary_file" <<EOF
+# ${lang_title} 学习计划（${tomorrow}）
+
+## 昨日反馈
+$(if [ -f "$yesterday_file" ]; then echo "- 昨日记录：[$yesterday]($(basename "$yesterday_file"))"; else echo "- 昨日记录：未找到"; fi)
+- 今日总结：请在此填写昨天的学习反馈、完成度与困难。
+
+## 明日学习计划
+- 学习目标（基于权威资料，如 ${lang_title} 官方文档）： 
+- 预计投入时间：
+- 学习量调整说明：
+
+## 参考资料
+- 参见 [${lang_title} 权威信息源](../README.md#权威信息源)
+EOF
+          done
+
+          echo "tomorrow=$tomorrow" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push changes
+        env:
+          TOMORROW: ${{ steps.plan.outputs.tomorrow }}
+        run: |
+          set -euo pipefail
+          tomorrow="$TOMORROW"
+          if git status --porcelain | grep .; then
+            git add docs
+            git commit -m "chore: add ${tomorrow} feedback summary and plan"
+            git push
+          else
+            echo "No new plans generated."
+          fi

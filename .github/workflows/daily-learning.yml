@@ -1,0 +1,83 @@
+name: Daily Learning Docs
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Prepare git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Generate daily docs
+        id: generate
+        env:
+          TZ: UTC
+        run: |
+          set -euo pipefail
+          languages=(java python go ruby)
+          today=$(date -u +%Y-%m-%d)
+
+          for lang in "${languages[@]}"; do
+            dir="docs/${lang}/daily"
+            mkdir -p "$dir"
+            file="$dir/${today}.md"
+
+            if [ ! -f "$file" ]; then
+              case "$lang" in
+                java) lang_title="Java" ;;
+                python) lang_title="Python" ;;
+                go) lang_title="Go" ;;
+                ruby) lang_title="Ruby" ;;
+                *) lang_title="$lang" ;;
+              esac
+
+              cat > "$file" <<EOF
+# ${lang_title} 今日学习（${today}）
+
+## 入门
+- [ ] 今日目标：
+- [ ] 笔记：
+
+## 进阶
+- [ ] 今日目标：
+- [ ] 笔记：
+
+## 高级
+- [ ] 今日目标：
+- [ ] 笔记：
+
+## 参考资料
+- 参见 [${lang_title} 权威信息源](../README.md#权威信息源)
+EOF
+            fi
+          done
+
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push changes
+        env:
+          TODAY: ${{ steps.generate.outputs.today }}
+        run: |
+          set -euo pipefail
+          today="$TODAY"
+          if git status --porcelain | grep .; then
+            git add docs
+            git commit -m "chore: add ${today} daily learning docs"
+            git push
+          else
+            echo "No new daily docs generated."
+          fi
