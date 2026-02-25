@@ -1,0 +1,65 @@
+name: Test Scripts
+
+on:
+  push:
+    branches:
+      - main
+      - claude/**
+    paths:
+      - '.github/scripts/**'
+      - '.github/workflows/test-scripts.yml'
+  pull_request:
+    paths:
+      - '.github/scripts/**'
+      - '.github/workflows/test-scripts.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run tests for generate_daily_learning.py
+        run: |
+          cd .github/scripts
+          python -m unittest test_generate_daily_learning.py -v
+
+      - name: Run tests for generate_daily_feedback.py
+        run: |
+          cd .github/scripts
+          python -m unittest test_generate_daily_feedback.py -v
+
+      - name: Validate workflow YAML syntax
+        run: |
+          python -c "
+          import yaml
+          import sys
+
+          workflows = [
+            '.github/workflows/daily-learning.yml',
+            '.github/workflows/daily-feedback.yml',
+            '.github/workflows/pages-deploy.yml',
+            '.github/workflows/test-scripts.yml'
+          ]
+
+          for workflow in workflows:
+            try:
+              with open(workflow, 'r') as f:
+                yaml.safe_load(f)
+              print(f'✓ {workflow} - Valid YAML')
+            except yaml.YAMLError as e:
+              print(f'✗ {workflow} - YAML Error: {e}')
+              sys.exit(1)
+            except Exception as e:
+              print(f'✗ {workflow} - Error: {e}')
+              sys.exit(1)
+
+          print('\n✓ All workflow files are valid YAML')
+          "
