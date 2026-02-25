@@ -30,9 +30,8 @@ def generate_feedback_doc(lang, yesterday, tomorrow):
     summary_file = doc_dir / f'{tomorrow}.md'
     yesterday_file = doc_dir / f'{yesterday}.md'
 
-    if summary_file.exists():
-        print(f"Plan for {lang} on {tomorrow} already exists; skipping.")
-        return False
+    # Note: We no longer skip if file exists - allow overwrite when manually triggered
+    file_existed = summary_file.exists()
 
     # Create yesterday reference
     yesterday_basename = yesterday_file.name
@@ -57,7 +56,10 @@ def generate_feedback_doc(lang, yesterday, tomorrow):
 """
 
     summary_file.write_text(content, encoding='utf-8')
-    print(f"Generated: {summary_file}")
+    if file_existed:
+        print(f"Overwritten: {summary_file}")
+    else:
+        print(f"Generated: {summary_file}")
     return True
 
 
@@ -72,10 +74,8 @@ def main():
     languages = ['java', 'python', 'go', 'ruby']
 
     # Generate docs for each language
-    generated = False
     for lang in languages:
-        if generate_feedback_doc(lang, yesterday, tomorrow):
-            generated = True
+        generate_feedback_doc(lang, yesterday, tomorrow)
 
     # Set output for GitHub Actions
     if 'GITHUB_OUTPUT' in os.environ:
@@ -83,7 +83,7 @@ def main():
             f.write(f'tomorrow={tomorrow}\n')
 
     print(f"Yesterday: {yesterday}, Tomorrow: {tomorrow}")
-    return 0 if generated else 1
+    return 0
 
 
 if __name__ == '__main__':

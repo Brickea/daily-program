@@ -29,9 +29,8 @@ def generate_daily_doc(lang, today):
     # Create the file
     file_path = doc_dir / f'{today}.md'
 
-    if file_path.exists():
-        print(f"File already exists: {file_path}")
-        return False
+    # Note: We no longer skip if file exists - allow overwrite when manually triggered
+    file_existed = file_path.exists()
 
     content = f"""# {lang_title} 今日学习（{today}）
 
@@ -52,7 +51,10 @@ def generate_daily_doc(lang, today):
 """
 
     file_path.write_text(content, encoding='utf-8')
-    print(f"Generated: {file_path}")
+    if file_existed:
+        print(f"Overwritten: {file_path}")
+    else:
+        print(f"Generated: {file_path}")
     return True
 
 
@@ -65,10 +67,8 @@ def main():
     languages = ['java', 'python', 'go', 'ruby']
 
     # Generate docs for each language
-    generated = False
     for lang in languages:
-        if generate_daily_doc(lang, today):
-            generated = True
+        generate_daily_doc(lang, today)
 
     # Set output for GitHub Actions
     if 'GITHUB_OUTPUT' in os.environ:
@@ -76,7 +76,7 @@ def main():
             f.write(f'today={today}\n')
 
     print(f"Date: {today}")
-    return 0 if generated else 1
+    return 0
 
 
 if __name__ == '__main__':
