@@ -22,51 +22,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Generate daily docs
         id: generate
         env:
           TZ: UTC
-        run: |
-          set -euo pipefail
-          languages=(java python go ruby)
-          today=$(date -u +%Y-%m-%d)
-
-          for lang in "${languages[@]}"; do
-            dir="docs/${lang}/daily"
-            mkdir -p "$dir"
-            file="$dir/${today}.md"
-
-            if [ ! -f "$file" ]; then
-              case "$lang" in
-                java) lang_title="Java" ;;
-                python) lang_title="Python" ;;
-                go) lang_title="Go" ;;
-                ruby) lang_title="Ruby" ;;
-                *) lang_title="$lang" ;;
-              esac
-
-              cat > "$file" <<EOF
-# ${lang_title} 今日学习（${today}）
-
-## 入门
-- [ ] 今日目标：
-- [ ] 笔记：
-
-## 进阶
-- [ ] 今日目标：
-- [ ] 笔记：
-
-## 高级
-- [ ] 今日目标：
-- [ ] 笔记：
-
-## 参考资料
-- 参见 [${lang_title} 权威信息源](../README.md#权威信息源)
-EOF
-            fi
-          done
-
-          echo "today=$today" >> "$GITHUB_OUTPUT"
+        run: python .github/scripts/generate_daily_learning.py
 
       - name: Commit and push changes
         env:

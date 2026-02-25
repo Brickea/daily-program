@@ -22,59 +22,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Summarize feedback and plan next day
         id: plan
         env:
           TZ: UTC
-        run: |
-          set -euo pipefail
-          languages=(java python go ruby)
-          yesterday=$(date -u -d "yesterday" +%Y-%m-%d)
-          tomorrow=$(date -u -d "tomorrow" +%Y-%m-%d)
-
-          for lang in "${languages[@]}"; do
-            dir="docs/${lang}/daily"
-            mkdir -p "$dir"
-
-            summary_file="$dir/${tomorrow}.md"
-            yesterday_file="$dir/${yesterday}.md"
-
-            if [ -f "$summary_file" ]; then
-              echo "Plan for ${lang} on ${tomorrow} already exists; skipping."
-              continue
-            fi
-
-            case "$lang" in
-              java) lang_title="Java" ;;
-              python) lang_title="Python" ;;
-              go) lang_title="Go" ;;
-              ruby) lang_title="Ruby" ;;
-              *) lang_title="$lang" ;;
-            esac
-
-            yesterday_basename=$(basename "$yesterday_file")
-            {
-              echo "# ${lang_title} 学习计划（${tomorrow}）"
-              echo ""
-              echo "## 昨日反馈"
-              if [ -f "$yesterday_file" ]; then
-                echo "- 昨日记录：[$yesterday]($yesterday_basename)"
-              else
-                echo "- 昨日记录：未找到"
-              fi
-              echo "- 今日总结：请在此填写昨天的学习反馈、完成度与困难。"
-              echo ""
-              echo "## 明日学习计划"
-              echo "- 学习目标（基于权威资料，如 ${lang_title} 官方文档）："
-              echo "- 预计投入时间："
-              echo "- 学习量调整说明："
-              echo ""
-              echo "## 参考资料"
-              echo "- 参见 [${lang_title} 权威信息源](../README.md#权威信息源)"
-            } > "$summary_file"
-          done
-
-          echo "tomorrow=$tomorrow" >> "$GITHUB_OUTPUT"
+        run: python .github/scripts/generate_daily_feedback.py
 
       - name: Commit and push changes
         env:
