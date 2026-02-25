@@ -32,7 +32,12 @@ def generate_daily_doc(lang, today):
     # Note: We no longer skip if file exists - allow overwrite when manually triggered
     file_existed = file_path.exists()
 
-    content = f"""# {lang_title} 今日学习（{today}）
+    content = f"""---
+layout: default
+title: "{lang_title} 今日学习（{today}）"
+---
+
+# {lang_title} 今日学习（{today}）
 
 ## 入门
 - [ ] 今日目标：

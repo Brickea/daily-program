@@ -58,6 +58,8 @@ class TestGenerateFeedbackDoc(unittest.TestCase):
 
         # Check content
         content = file_path.read_text(encoding='utf-8')
+        self.assertTrue(content.startswith('---\nlayout: default'))
+        self.assertIn('title: "Java 学习计划（2026-02-26）"', content)
         self.assertIn('# Java 学习计划（2026-02-26）', content)
         self.assertIn('## 昨日反馈', content)
         self.assertIn('## 明日学习计划', content)

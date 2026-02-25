@@ -56,6 +56,8 @@ class TestGenerateDailyDoc(unittest.TestCase):
 
         # Check content
         content = file_path.read_text(encoding='utf-8')
+        self.assertTrue(content.startswith('---\nlayout: default'))
+        self.assertIn('title: "Java 今日学习（2026-02-25）"', content)
         self.assertIn('# Java 今日学习（2026-02-25）', content)
         self.assertIn('## 入门', content)
         self.assertIn('## 进阶', content)

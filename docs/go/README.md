@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Go 学习体系"
+---
+
 # Go 学习体系
 
 ## 权威信息源

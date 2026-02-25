@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Java 学习体系"
+---
+
 # Java 学习体系
 
 ## 权威信息源
