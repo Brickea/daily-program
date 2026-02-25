@@ -14,6 +14,7 @@ from validate_all import (
     validate_workflow_integration,
     validate_docs_structure,
     validate_python_scripts,
+    validate_github_pages_links,
     main
 )
 
@@ -299,6 +300,79 @@ class TestValidatePythonScripts(unittest.TestCase):
         self.assertFalse(result)
 
 
+class TestValidateGitHubPagesLinks(unittest.TestCase):
+    """Test validate_github_pages_links function."""
+
+    def setUp(self):
+        """Set up temporary directory for tests."""
+        self.test_dir = tempfile.mkdtemp()
+        self.original_cwd = os.getcwd()
+        os.chdir(self.test_dir)
+
+    def tearDown(self):
+        """Clean up temporary directory."""
+        os.chdir(self.original_cwd)
+        import shutil
+        shutil.rmtree(self.test_dir)
+
+    def test_valid_links_with_baseurl(self):
+        """Test validation succeeds when all internal links use {{ site.baseurl }}."""
+        docs_dir = Path('docs')
+        docs_dir.mkdir(exist_ok=True)
+
+        # Create index.md with proper baseurl usage
+        index_content = """
+# Daily Programming
+<a href="{{ site.baseurl }}/java/README.html">Java</a>
+<a href="{{ site.baseurl }}/python/README.html">Python</a>
+<a href="{{ site.baseurl }}/go/daily/2026-02-25.html">Go Daily</a>
+<a href="https://github.com/Brickea/daily-program">GitHub</a>
+"""
+        (docs_dir / 'index.md').write_text(index_content)
+
+        result = validate_github_pages_links()
+        self.assertTrue(result)
+
+    def test_invalid_links_without_baseurl(self):
+        """Test validation fails when internal links don't use {{ site.baseurl }}."""
+        docs_dir = Path('docs')
+        docs_dir.mkdir(exist_ok=True)
+
+        # Create index.md with improper relative links
+        index_content = """
+# Daily Programming
+<a href="java/README.html">Java</a>
+<a href="python/README.html">Python</a>
+<a href="{{ site.baseurl }}/go/daily/2026-02-25.html">Go Daily</a>
+"""
+        (docs_dir / 'index.md').write_text(index_content)
+
+        result = validate_github_pages_links()
+        self.assertFalse(result)
+
+    def test_external_links_ignored(self):
+        """Test that external links are not validated."""
+        docs_dir = Path('docs')
+        docs_dir.mkdir(exist_ok=True)
+
+        # Create index.md with external links only
+        index_content = """
+# Daily Programming
+<a href="https://github.com/Brickea/daily-program">GitHub</a>
+<a href="http://example.com">Example</a>
+<a href="#anchor">Anchor</a>
+"""
+        (docs_dir / 'index.md').write_text(index_content)
+
+        result = validate_github_pages_links()
+        self.assertTrue(result)
+
+    def test_missing_index_file(self):
+        """Test validation fails when index.md doesn't exist."""
+        result = validate_github_pages_links()
+        self.assertFalse(result)
+
+
 class TestMain(unittest.TestCase):
     """Test main function."""
 
@@ -348,8 +422,13 @@ class TestMain(unittest.TestCase):
         (scripts_dir / 'generate_daily_learning.py').write_text('#!/usr/bin/env python3\nprint("test")')
         (scripts_dir / 'generate_daily_feedback.py').write_text('#!/usr/bin/env python3\nprint("test")')
 
-        # Create docs structure
-        (docs_dir / 'index.md').write_text('# Index')
+        # Create docs structure with proper baseurl links
+        index_content = """
+# Daily Programming
+<a href="{{ site.baseurl }}/java/README.html">Java</a>
+<a href="{{ site.baseurl }}/python/README.html">Python</a>
+"""
+        (docs_dir / 'index.md').write_text(index_content)
         (docs_dir / '_config.yml').write_text(yaml.dump({
             'theme': 'minimal',
             'baseurl': '/daily-program',
