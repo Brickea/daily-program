@@ -192,7 +192,9 @@ class TestValidateDocsStructure(unittest.TestCase):
         (docs_dir / 'index.md').write_text('# Index')
         (docs_dir / '_config.yml').write_text(yaml.dump({
             'theme': 'jekyll-theme-minimal',
-            'title': 'Daily Program'
+            'title': 'Daily Program',
+            'baseurl': '/daily-program',
+            'url': 'https://brickea.github.io'
         }))
 
         # Create language directories with READMEs
@@ -222,12 +224,37 @@ class TestValidateDocsStructure(unittest.TestCase):
 
         # Create required files
         (docs_dir / 'index.md').write_text('# Index')
-        (docs_dir / '_config.yml').write_text(yaml.dump({'theme': 'minimal'}))
+        (docs_dir / '_config.yml').write_text(yaml.dump({
+            'theme': 'minimal',
+            'baseurl': '/daily-program',
+            'url': 'https://brickea.github.io'
+        }))
 
         # Create only java directory
         java_dir = docs_dir / 'java'
         java_dir.mkdir(exist_ok=True)
         (java_dir / 'README.md').write_text('# Java')
+
+        result = validate_docs_structure()
+        self.assertFalse(result)
+
+    def test_missing_baseurl_in_config(self):
+        """Test validation fails when baseurl is missing from _config.yml."""
+        docs_dir = Path('docs')
+        docs_dir.mkdir(exist_ok=True)
+
+        # Create required files but without baseurl
+        (docs_dir / 'index.md').write_text('# Index')
+        (docs_dir / '_config.yml').write_text(yaml.dump({
+            'theme': 'jekyll-theme-minimal',
+            'title': 'Daily Program'
+        }))
+
+        # Create language directories with READMEs
+        for lang in ['java', 'python', 'go', 'ruby']:
+            lang_dir = docs_dir / lang
+            lang_dir.mkdir(exist_ok=True)
+            (lang_dir / 'README.md').write_text(f'# {lang.title()}')
 
         result = validate_docs_structure()
         self.assertFalse(result)
@@ -323,7 +350,11 @@ class TestMain(unittest.TestCase):
 
         # Create docs structure
         (docs_dir / 'index.md').write_text('# Index')
-        (docs_dir / '_config.yml').write_text(yaml.dump({'theme': 'minimal'}))
+        (docs_dir / '_config.yml').write_text(yaml.dump({
+            'theme': 'minimal',
+            'baseurl': '/daily-program',
+            'url': 'https://brickea.github.io'
+        }))
 
         for lang in ['java', 'python', 'go', 'ruby']:
             lang_dir = docs_dir / lang

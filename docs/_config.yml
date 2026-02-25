@@ -4,6 +4,8 @@
 # Site settings
 title: "📚 Daily Programming Learning"
 description: "系统化学习 Java、Python、Go、Ruby 四门主流编程语言 - 每日编程学习文档"
+baseurl: "/daily-program"
+url: "https://brickea.github.io"
 
 # Theme - using GitHub's minimal theme for better compatibility
 theme: jekyll-theme-minimal

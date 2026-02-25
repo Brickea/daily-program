@@ -120,6 +120,14 @@ def validate_docs_structure():
         if 'title' in config:
             print(f'  Title: {config["title"]}')
 
+        # Validate baseurl and url for project pages
+        if 'baseurl' in config and 'url' in config:
+            print(f'  ✓ baseurl: {config["baseurl"]}')
+            print(f'  ✓ url: {config["url"]}')
+        else:
+            print(f'  ✗ Missing baseurl or url configuration')
+            all_valid = False
+
     if all_valid:
         print("\n✓ Docs structure is valid for GitHub Pages")
 
