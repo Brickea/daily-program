@@ -57,19 +57,19 @@ title: 📚 Daily Programming Learning
 ## 📅 最近学习记录
 
 <div style="margin: 2rem 0;">
-  <h3>Java</h3>
+  <h3>Java <a href="{{ site.baseurl }}/java/archive.html" style="font-size: 0.8rem; color: #667eea; text-decoration: none;">📚 查看全部归档 →</a></h3>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/java/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/java/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
-  <h3>Python</h3>
+  <h3>Python <a href="{{ site.baseurl }}/python/archive.html" style="font-size: 0.8rem; color: #667eea; text-decoration: none;">📚 查看全部归档 →</a></h3>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/python/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/python/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
-  <h3>Go</h3>
+  <h3>Go <a href="{{ site.baseurl }}/go/archive.html" style="font-size: 0.8rem; color: #667eea; text-decoration: none;">📚 查看全部归档 →</a></h3>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/go/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/go/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
-  <h3>Ruby</h3>
+  <h3>Ruby <a href="{{ site.baseurl }}/ruby/archive.html" style="font-size: 0.8rem; color: #667eea; text-decoration: none;">📚 查看全部归档 →</a></h3>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/ruby/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
   <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/ruby/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 </div>

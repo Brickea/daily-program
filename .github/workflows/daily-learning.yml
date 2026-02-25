@@ -37,6 +37,9 @@ jobs:
           TZ: UTC
         run: python .github/scripts/collect_daily_content.py
 
+      - name: Generate archive index
+        run: python .github/scripts/generate_archive_index.py
+
       - name: Commit and push changes
         env:
           TODAY: ${{ steps.generate.outputs.today }}

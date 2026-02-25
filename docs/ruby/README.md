@@ -20,3 +20,4 @@ title: "Ruby 学习体系"
 
 ## 每日学习
 - 每日文档存放于 `daily/` 目录，GitHub Actions 每天 UTC 07:00 自动生成模板。
+- [查看历史学习归档](archive.md)

@@ -168,9 +168,30 @@ def generate_daily_doc(lang, today, items, config):
         f"",
         f"# {lang_title} 今日学习（{today}）",
         f"",
+    ]
+
+    # Add TOC if there are items
+    if items:
+        # Group items by source for TOC
+        items_by_source = defaultdict(list)
+        for item in items:
+            items_by_source[item['source']].append(item)
+
+        content_parts.append(f"## 目录")
+        content_parts.append(f"")
+        content_parts.append(f"- [今日推荐内容](#今日推荐内容)")
+        for source_name in items_by_source.keys():
+            # Create anchor-friendly version of source name
+            anchor = source_name.replace(' ', '-').replace('(', '').replace(')', '').lower()
+            content_parts.append(f"  - [{source_name}](#{anchor})")
+        content_parts.append(f"- [学习计划](#学习计划)")
+        content_parts.append(f"- [参考资料](#参考资料)")
+        content_parts.append(f"")
+
+    content_parts.extend([
         f"## 今日推荐内容",
         f""
-    ]
+    ])
 
     if items:
         # Group items by source

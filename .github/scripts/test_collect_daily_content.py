@@ -38,6 +38,7 @@ class TestCollectDailyContent(unittest.TestCase):
 output:
   max_items_per_source: 3
   max_total_items: 10
+  max_items_display_per_source: 5
 
 languages:
   java:
@@ -77,6 +78,10 @@ languages:
         # Test HTML entity unescaping
         text = 'Test &amp; text'
         self.assertEqual(collect_daily_content.clean_text(text), 'Test & text')
+
+        # Test HTML tag stripping
+        html_text = '<p>Test <em>content</em> here</p>'
+        self.assertEqual(collect_daily_content.clean_text(html_text), 'Test content here')
 
         # Test truncation
         long_text = 'a' * 300
@@ -120,7 +125,8 @@ languages:
             }
         ]
 
-        result = collect_daily_content.generate_daily_doc(lang, today, items)
+        config = collect_daily_content.load_config()
+        result = collect_daily_content.generate_daily_doc(lang, today, items, config)
         self.assertTrue(result)
 
         # Check file was created
@@ -143,7 +149,8 @@ languages:
         today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
         items = []
 
-        result = collect_daily_content.generate_daily_doc(lang, today, items)
+        config = collect_daily_content.load_config()
+        result = collect_daily_content.generate_daily_doc(lang, today, items, config)
         self.assertTrue(result)
 
         # Check file was created
@@ -167,7 +174,8 @@ languages:
         self.assertTrue(file_path.exists())
 
         # Generate new content
-        result = collect_daily_content.generate_daily_doc(lang, today, items)
+        config = collect_daily_content.load_config()
+        result = collect_daily_content.generate_daily_doc(lang, today, items, config)
         self.assertTrue(result)
 
         # Check file was overwritten
