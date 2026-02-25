@@ -14,16 +14,16 @@ title: 📚 Daily Programming Learning
 <div class="today-learning" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; margin: 2rem 0; color: white;">
   <h3 style="margin-top: 0; color: white;">🌟 Today's Learning - 2026-02-25</h3>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem;">
-    <a href="java/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
+    <a href="{{ site.baseurl }}/java/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
       ☕ Java
     </a>
-    <a href="python/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
+    <a href="{{ site.baseurl }}/python/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
       🐍 Python
     </a>
-    <a href="go/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
+    <a href="{{ site.baseurl }}/go/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
       🔷 Go
     </a>
-    <a href="ruby/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
+    <a href="{{ site.baseurl }}/ruby/daily/2026-02-25.html" style="display: block; background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; text-align: center; transition: transform 0.2s;">
       💎 Ruby
     </a>
   </div>
@@ -35,22 +35,22 @@ title: 📚 Daily Programming Learning
   <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #b07219;">
     <h3 style="margin-top: 0;">☕ Java</h3>
     <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">企业级应用开发的首选语言</p>
-    <a href="java/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
+    <a href="{{ site.baseurl }}/java/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
   </div>
   <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3572A5;">
     <h3 style="margin-top: 0;">🐍 Python</h3>
     <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">数据科学与AI领域的王者</p>
-    <a href="python/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
+    <a href="{{ site.baseurl }}/python/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
   </div>
   <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #00ADD8;">
     <h3 style="margin-top: 0;">🔷 Go</h3>
     <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">云原生时代的高性能语言</p>
-    <a href="go/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
+    <a href="{{ site.baseurl }}/go/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
   </div>
   <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #CC342D;">
     <h3 style="margin-top: 0;">💎 Ruby</h3>
     <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">优雅而富有表现力的脚本语言</p>
-    <a href="ruby/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
+    <a href="{{ site.baseurl }}/ruby/README.html" style="color: #667eea; text-decoration: none; font-weight: 500;">📖 学习路径 →</a>
   </div>
 </div>
 
@@ -58,20 +58,20 @@ title: 📚 Daily Programming Learning
 
 <div style="margin: 2rem 0;">
   <h3>Java</h3>
-  <div style="padding: 0.5rem 0;">• <a href="java/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
-  <div style="padding: 0.5rem 0;">• <a href="java/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/java/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/java/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
   <h3>Python</h3>
-  <div style="padding: 0.5rem 0;">• <a href="python/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
-  <div style="padding: 0.5rem 0;">• <a href="python/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/python/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/python/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
   <h3>Go</h3>
-  <div style="padding: 0.5rem 0;">• <a href="go/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
-  <div style="padding: 0.5rem 0;">• <a href="go/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/go/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/go/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 
   <h3>Ruby</h3>
-  <div style="padding: 0.5rem 0;">• <a href="ruby/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
-  <div style="padding: 0.5rem 0;">• <a href="ruby/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/ruby/daily/2026-02-26.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-26</a> - 学习计划</div>
+  <div style="padding: 0.5rem 0;">• <a href="{{ site.baseurl }}/ruby/daily/2026-02-25.html" style="color: #667eea; text-decoration: none; font-weight: 500;">2026-02-25</a> - 今日学习</div>
 </div>
 
 ## 🚀 特性
@@ -104,10 +104,10 @@ title: 📚 Daily Programming Learning
 ## 🔗 快速链接
 
 - [GitHub 仓库](https://github.com/Brickea/daily-program) - 查看源代码和配置
-- [Java 学习路径](java/README.html) - Java 完整学习体系
-- [Python 学习路径](python/README.html) - Python 完整学习体系
-- [Go 学习路径](go/README.html) - Go 完整学习体系
-- [Ruby 学习路径](ruby/README.html) - Ruby 完整学习体系
+- [Java 学习路径]({{ site.baseurl }}/java/README.html) - Java 完整学习体系
+- [Python 学习路径]({{ site.baseurl }}/python/README.html) - Python 完整学习体系
+- [Go 学习路径]({{ site.baseurl }}/go/README.html) - Go 完整学习体系
+- [Ruby 学习路径]({{ site.baseurl }}/ruby/README.html) - Ruby 完整学习体系
 
 ---
 

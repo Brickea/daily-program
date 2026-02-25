@@ -3,6 +3,7 @@
 
 import sys
 import yaml
+import re
 from pathlib import Path
 
 
@@ -162,6 +163,60 @@ def validate_python_scripts():
     return all_valid
 
 
+def validate_github_pages_links():
+    """Validate that internal links in index.md use {{ site.baseurl }} prefix."""
+    print("\n" + "=" * 60)
+    print("GitHub Pages Links Validation")
+    print("=" * 60)
+
+    index_path = Path('docs/index.md')
+    if not index_path.exists():
+        print(f'✗ Missing: {index_path}')
+        return False
+
+    with open(index_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Pattern to match internal links that should use baseurl
+    # This matches href="..." in HTML links
+    href_pattern = re.compile(r'href=["\']([^"\']+)["\']')
+
+    all_valid = True
+    issues = []
+
+    for match in href_pattern.finditer(content):
+        url = match.group(1)
+
+        # Skip external links (http/https)
+        if url.startswith('http://') or url.startswith('https://'):
+            continue
+
+        # Skip links that already use site.baseurl
+        if '{{ site.baseurl }}' in url:
+            continue
+
+        # Skip anchor links
+        if url.startswith('#'):
+            continue
+
+        # This is an internal link that should use baseurl
+        # Check if it points to internal docs (java/, python/, go/, ruby/)
+        if any(url.startswith(lang) for lang in ['java/', 'python/', 'go/', 'ruby/']):
+            issues.append(f'  ✗ Link missing baseurl: href="{url}"')
+            all_valid = False
+
+    if issues:
+        print(f'Found {len(issues)} internal links without {{ site.baseurl }}:')
+        for issue in issues[:10]:  # Show first 10
+            print(issue)
+        if len(issues) > 10:
+            print(f'  ... and {len(issues) - 10} more')
+    else:
+        print('✓ All internal links use {{ site.baseurl }} prefix')
+
+    return all_valid
+
+
 def main():
     """Run all validations."""
     print("GitHub Actions Workflow Validation")
@@ -171,7 +226,8 @@ def main():
         'YAML Files': validate_yaml_files(),
         'Workflow Integration': validate_workflow_integration(),
         'Docs Structure': validate_docs_structure(),
-        'Python Scripts': validate_python_scripts()
+        'Python Scripts': validate_python_scripts(),
+        'GitHub Pages Links': validate_github_pages_links()
     }
 
     print("\n" + "=" * 60)
@@ -189,6 +245,7 @@ def main():
         print("\n✓ GitHub Actions workflows are properly configured")
         print("✓ Python scripts are in place and tested")
         print("✓ GitHub Pages structure is correct")
+        print("✓ GitHub Pages links use proper baseurl")
         return 0
     else:
         print("\n✗ Some validations failed")
