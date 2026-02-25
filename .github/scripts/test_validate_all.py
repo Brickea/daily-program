@@ -43,7 +43,6 @@ class TestValidateYamlFiles(unittest.TestCase):
         # Create valid workflow files
         workflows = {
             'daily-learning.yml': {'name': 'Daily Learning', 'jobs': {'test': {}}},
-            'daily-feedback.yml': {'name': 'Daily Feedback', 'jobs': {'test': {}}},
             'pages-deploy.yml': {'name': 'Pages Deploy', 'jobs': {'deploy': {}}},
             'test-scripts.yml': {'name': 'Test Scripts', 'jobs': {'test': {}}}
         }
@@ -104,7 +103,7 @@ class TestValidateWorkflowIntegration(unittest.TestCase):
             'name': 'Pages Deploy',
             'on': {
                 'workflow_run': {
-                    'workflows': ['Daily Learning Docs', 'Daily Feedback Summary']
+                    'workflows': ['Daily Learning Docs']
                 }
             }
         }
@@ -114,19 +113,11 @@ class TestValidateWorkflowIntegration(unittest.TestCase):
             'jobs': {'test': {}}
         }
 
-        feedback_config = {
-            'name': 'Daily Feedback Summary',
-            'jobs': {'test': {}}
-        }
-
         with open(workflows_dir / 'pages-deploy.yml', 'w') as f:
             yaml.dump(pages_config, f)
 
         with open(workflows_dir / 'daily-learning.yml', 'w') as f:
             yaml.dump(learning_config, f)
-
-        with open(workflows_dir / 'daily-feedback.yml', 'w') as f:
-            yaml.dump(feedback_config, f)
 
         result = validate_workflow_integration()
         self.assertTrue(result)
@@ -141,7 +132,7 @@ class TestValidateWorkflowIntegration(unittest.TestCase):
             'name': 'Pages Deploy',
             'on': {
                 'workflow_run': {
-                    'workflows': ['Wrong Name', 'Daily Feedback Summary']
+                    'workflows': ['Wrong Name']
                 }
             }
         }
@@ -151,19 +142,11 @@ class TestValidateWorkflowIntegration(unittest.TestCase):
             'jobs': {'test': {}}
         }
 
-        feedback_config = {
-            'name': 'Daily Feedback Summary',
-            'jobs': {'test': {}}
-        }
-
         with open(workflows_dir / 'pages-deploy.yml', 'w') as f:
             yaml.dump(pages_config, f)
 
         with open(workflows_dir / 'daily-learning.yml', 'w') as f:
             yaml.dump(learning_config, f)
-
-        with open(workflows_dir / 'daily-feedback.yml', 'w') as f:
-            yaml.dump(feedback_config, f)
 
         result = validate_workflow_integration()
         self.assertFalse(result)
@@ -283,7 +266,7 @@ class TestValidatePythonScripts(unittest.TestCase):
 
         # Create script files
         (scripts_dir / 'generate_daily_learning.py').write_text('#!/usr/bin/env python3\nprint("test")')
-        (scripts_dir / 'generate_daily_feedback.py').write_text('#!/usr/bin/env python3\nprint("test")')
+        (scripts_dir / 'collect_daily_content.py').write_text('#!/usr/bin/env python3\nprint("test")')
 
         result = validate_python_scripts()
         self.assertTrue(result)
@@ -401,12 +384,11 @@ class TestMain(unittest.TestCase):
         # Create workflow files
         workflows = {
             'daily-learning.yml': {'name': 'Daily Learning Docs', 'jobs': {'test': {}}},
-            'daily-feedback.yml': {'name': 'Daily Feedback Summary', 'jobs': {'test': {}}},
             'pages-deploy.yml': {
                 'name': 'Pages Deploy',
                 'on': {
                     'workflow_run': {
-                        'workflows': ['Daily Learning Docs', 'Daily Feedback Summary']
+                        'workflows': ['Daily Learning Docs']
                     }
                 },
                 'jobs': {'deploy': {}}
@@ -420,7 +402,7 @@ class TestMain(unittest.TestCase):
 
         # Create script files
         (scripts_dir / 'generate_daily_learning.py').write_text('#!/usr/bin/env python3\nprint("test")')
-        (scripts_dir / 'generate_daily_feedback.py').write_text('#!/usr/bin/env python3\nprint("test")')
+        (scripts_dir / 'collect_daily_content.py').write_text('#!/usr/bin/env python3\nprint("test")')
 
         # Create docs structure with proper baseurl links
         index_content = """
@@ -451,12 +433,11 @@ class TestMain(unittest.TestCase):
 
         workflows = {
             'daily-learning.yml': {'name': 'Daily Learning Docs', 'jobs': {'test': {}}},
-            'daily-feedback.yml': {'name': 'Daily Feedback Summary', 'jobs': {'test': {}}},
             'pages-deploy.yml': {
                 'name': 'Pages Deploy',
                 'on': {
                     'workflow_run': {
-                        'workflows': ['Daily Learning Docs', 'Daily Feedback Summary']
+                        'workflows': ['Daily Learning Docs']
                     }
                 },
                 'jobs': {'deploy': {}}
