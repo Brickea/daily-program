@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Python 学习体系"
+---
+
 # Python 学习体系
 
 ## 权威信息源

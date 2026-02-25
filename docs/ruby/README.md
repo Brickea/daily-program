@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Ruby 学习体系"
+---
+
 # Ruby 学习体系
 
 ## 权威信息源

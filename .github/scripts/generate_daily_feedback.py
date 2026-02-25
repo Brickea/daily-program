@@ -40,7 +40,12 @@ def generate_feedback_doc(lang, yesterday, tomorrow):
     else:
         yesterday_ref = "- 昨日记录：未找到"
 
-    content = f"""# {lang_title} 学习计划（{tomorrow}）
+    content = f"""---
+layout: default
+title: "{lang_title} 学习计划（{tomorrow}）"
+---
+
+# {lang_title} 学习计划（{tomorrow}）
 
 ## 昨日反馈
 {yesterday_ref}
