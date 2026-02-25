@@ -5,6 +5,7 @@
 output:
   max_items_per_source: 5
   max_total_items: 15
+  max_items_display_per_source: 5  # Number of top items to display from each source
 
 # Language-specific sources
 languages:

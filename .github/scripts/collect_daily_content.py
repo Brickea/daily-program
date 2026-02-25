@@ -3,8 +3,10 @@
 
 import os
 import sys
+import re
 from datetime import datetime, timezone
 from pathlib import Path
+from collections import defaultdict
 import yaml
 import feedparser
 import html
@@ -39,8 +41,8 @@ def clean_text(text):
         return ""
     # Unescape HTML entities
     text = html.unescape(text)
-    # Strip HTML tags
-    text = text.replace('<', '&lt;').replace('>', '&gt;')
+    # Strip HTML tags using a simple regex approach
+    text = re.sub(r'<[^>]+>', '', text)
     # Remove extra whitespace
     text = ' '.join(text.split())
     # Truncate
@@ -144,9 +146,10 @@ def collect_content_for_language(lang, config):
     return all_items
 
 
-def generate_daily_doc(lang, today, items):
+def generate_daily_doc(lang, today, items, config):
     """Generate a daily learning doc with collected content."""
     lang_title = get_language_title(lang)
+    max_items_display = config['output'].get('max_items_display_per_source', 5)
 
     # Create directory structure
     doc_dir = Path('docs') / lang / 'daily'
@@ -165,23 +168,57 @@ def generate_daily_doc(lang, today, items):
         f"",
         f"# {lang_title} 今日学习（{today}）",
         f"",
-        f"## 今日推荐内容",
-        f""
     ]
 
+    # Add TOC if there are items
     if items:
-        for i, item in enumerate(items, 1):
-            content_parts.append(f"### {i}. {item['title']}")
+        # Group items by source for TOC
+        items_by_source = defaultdict(list)
+        for item in items:
+            items_by_source[item['source']].append(item)
+
+        content_parts.append(f"## 目录")
+        content_parts.append(f"")
+        content_parts.append(f"- [今日推荐内容](#今日推荐内容)")
+        for source_name in items_by_source.keys():
+            # Create anchor-friendly version of source name
+            anchor = source_name.replace(' ', '-').replace('(', '').replace(')', '').lower()
+            content_parts.append(f"  - [{source_name}](#{anchor})")
+        content_parts.append(f"- [学习计划](#学习计划)")
+        content_parts.append(f"- [参考资料](#参考资料)")
+        content_parts.append(f"")
+
+    content_parts.extend([
+        f"## 今日推荐内容",
+        f""
+    ])
+
+    if items:
+        # Group items by source
+        items_by_source = defaultdict(list)
+        for item in items:
+            items_by_source[item['source']].append(item)
+
+        # Display items grouped by source
+        for source_name, source_items in items_by_source.items():
+            content_parts.append(f"### 📌 {source_name}")
             content_parts.append(f"")
-            content_parts.append(f"**来源**: {item['source']}")
-            if item['published']:
-                content_parts.append(f"**发布时间**: {item['published']}")
-            content_parts.append(f"")
-            if item['summary']:
-                content_parts.append(f"{item['summary']}")
+
+            # Limit items per source to max_items_display
+            display_items = source_items[:max_items_display]
+
+            for i, item in enumerate(display_items, 1):
+                content_parts.append(f"#### {i}. {item['title']}")
                 content_parts.append(f"")
-            content_parts.append(f"[查看详情]({item['link']})")
-            content_parts.append(f"")
+                if item['published']:
+                    content_parts.append(f"**发布时间**: {item['published']}")
+                    content_parts.append(f"")
+                if item['summary']:
+                    content_parts.append(f"{item['summary']}")
+                    content_parts.append(f"")
+                content_parts.append(f"[查看详情]({item['link']})")
+                content_parts.append(f"")
+
             content_parts.append(f"---")
             content_parts.append(f"")
     else:
@@ -235,7 +272,7 @@ def main():
         print(f"\n=== Processing {lang} ===")
         items = collect_content_for_language(lang, config)
         print(f"Collected {len(items)} items for {lang}")
-        generate_daily_doc(lang, today, items)
+        generate_daily_doc(lang, today, items, config)
 
     # Set output for GitHub Actions
     if 'GITHUB_OUTPUT' in os.environ:
