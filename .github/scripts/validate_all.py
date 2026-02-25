@@ -15,7 +15,6 @@ def validate_yaml_files():
 
     workflows = [
         '.github/workflows/daily-learning.yml',
-        '.github/workflows/daily-feedback.yml',
         '.github/workflows/pages-deploy.yml',
         '.github/workflows/test-scripts.yml'
     ]
@@ -51,21 +50,16 @@ def validate_workflow_integration():
     with open('.github/workflows/daily-learning.yml', 'r') as f:
         learning_config = yaml.safe_load(f)
 
-    with open('.github/workflows/daily-feedback.yml', 'r') as f:
-        feedback_config = yaml.safe_load(f)
-
     # Get trigger config (YAML parses 'on' as True)
     on_config = pages_config.get(True) or pages_config.get('on')
     watched = on_config['workflow_run']['workflows']
 
     learning_name = learning_config['name']
-    feedback_name = feedback_config['name']
 
     print(f"Pages Deploy watches: {watched}")
     print(f"Daily Learning name: '{learning_name}' - {'✓' if learning_name in watched else '✗'}")
-    print(f"Daily Feedback name: '{feedback_name}' - {'✓' if feedback_name in watched else '✗'}")
 
-    if learning_name in watched and feedback_name in watched:
+    if learning_name in watched:
         print("\n✓ Workflow integration is correct")
         return True
     else:
@@ -143,7 +137,7 @@ def validate_python_scripts():
 
     scripts = [
         '.github/scripts/generate_daily_learning.py',
-        '.github/scripts/generate_daily_feedback.py'
+        '.github/scripts/collect_daily_content.py'
     ]
 
     all_valid = True

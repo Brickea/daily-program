@@ -1,0 +1,125 @@
+# Content sources configuration for daily programming learning
+# Each language has its own sources (RSS feeds, GitHub repositories, etc.)
+
+# Global settings
+output:
+  max_items_per_source: 5
+  max_total_items: 15
+
+# Language-specific sources
+languages:
+  java:
+    sources:
+      - name: "OpenJDK Mailing Lists (RSS proxy)"
+        type: rss
+        url: "https://blogs.oracle.com/java/rss"
+        enabled: true
+        description: "Official Java blog from Oracle"
+
+      - name: "Spring Blog"
+        type: rss
+        url: "https://spring.io/blog.atom"
+        enabled: true
+        description: "Official Spring Framework blog"
+
+      - name: "Baeldung"
+        type: rss
+        url: "https://www.baeldung.com/feed/"
+        enabled: true
+        description: "Java tutorials and best practices"
+
+      - name: "InfoQ Java"
+        type: rss
+        url: "https://feed.infoq.com/java/"
+        enabled: true
+        description: "Java news and articles from InfoQ"
+
+      - name: "Java Subreddit"
+        type: rss
+        url: "https://www.reddit.com/r/java/.rss"
+        enabled: true
+        description: "Java community discussions"
+
+  python:
+    sources:
+      - name: "Python.org News"
+        type: rss
+        url: "https://www.python.org/blogs/feed/rss/"
+        enabled: true
+        description: "Official Python news"
+
+      - name: "Real Python"
+        type: rss
+        url: "https://realpython.com/atom.xml"
+        enabled: true
+        description: "Python tutorials and articles"
+
+      - name: "PyPI Recent Updates"
+        type: rss
+        url: "https://pypi.org/rss/updates.xml"
+        enabled: true
+        description: "Recent package updates on PyPI"
+
+      - name: "Planet Python"
+        type: rss
+        url: "https://planetpython.org/rss20.xml"
+        enabled: true
+        description: "Aggregated Python blogs"
+
+      - name: "Python Subreddit"
+        type: rss
+        url: "https://www.reddit.com/r/Python/.rss"
+        enabled: true
+        description: "Python community discussions"
+
+  go:
+    sources:
+      - name: "Go Blog"
+        type: rss
+        url: "https://go.dev/blog/feed.atom"
+        enabled: true
+        description: "Official Go blog"
+
+      - name: "Golang Weekly"
+        type: rss
+        url: "https://golangweekly.com/rss"
+        enabled: true
+        description: "Weekly Go newsletter"
+
+      - name: "Go Subreddit"
+        type: rss
+        url: "https://www.reddit.com/r/golang/.rss"
+        enabled: true
+        description: "Go community discussions"
+
+      - name: "Awesome Go (GitHub)"
+        type: github
+        url: "https://github.com/avelino/awesome-go"
+        enabled: true
+        description: "Curated list of Go frameworks and libraries"
+
+  ruby:
+    sources:
+      - name: "Ruby on Rails Blog"
+        type: rss
+        url: "https://rubyonrails.org/blog.rss"
+        enabled: true
+        description: "Official Rails blog"
+
+      - name: "Ruby Weekly"
+        type: rss
+        url: "https://rubyweekly.com/rss"
+        enabled: true
+        description: "Weekly Ruby newsletter"
+
+      - name: "RubyFlow"
+        type: rss
+        url: "http://www.rubyflow.com/rss"
+        enabled: true
+        description: "Ruby community link blog"
+
+      - name: "Ruby Subreddit"
+        type: rss
+        url: "https://www.reddit.com/r/ruby/.rss"
+        enabled: true
+        description: "Ruby community discussions"

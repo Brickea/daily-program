@@ -27,11 +27,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Generate daily docs
+      - name: Install dependencies
+        run: |
+          pip install feedparser pyyaml
+
+      - name: Collect and generate daily docs
         id: generate
         env:
           TZ: UTC
-        run: python .github/scripts/generate_daily_learning.py
+        run: python .github/scripts/collect_daily_content.py
 
       - name: Commit and push changes
         env:
@@ -41,7 +45,7 @@ jobs:
           today="$TODAY"
           if git status --porcelain | grep .; then
             git add docs
-            git commit -m "chore: add ${today} daily learning docs"
+            git commit -m "chore: add ${today} daily learning content"
             git push
           else
             echo "No new daily docs generated."

@@ -27,17 +27,17 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml feedparser
+
+      - name: Run tests for collect_daily_content.py
+        run: |
+          cd .github/scripts
+          python -m unittest test_collect_daily_content.py -v
 
       - name: Run tests for generate_daily_learning.py
         run: |
           cd .github/scripts
           python -m unittest test_generate_daily_learning.py -v
-
-      - name: Run tests for generate_daily_feedback.py
-        run: |
-          cd .github/scripts
-          python -m unittest test_generate_daily_feedback.py -v
 
       - name: Run tests for validate_all.py
         run: |
@@ -52,7 +52,6 @@ jobs:
 
           workflows = [
             '.github/workflows/daily-learning.yml',
-            '.github/workflows/daily-feedback.yml',
             '.github/workflows/pages-deploy.yml',
             '.github/workflows/test-scripts.yml'
           ]

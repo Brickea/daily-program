@@ -4,7 +4,6 @@ on:
   workflow_run:
     workflows:
       - Daily Learning Docs
-      - Daily Feedback Summary
     types:
       - completed
   workflow_dispatch:
