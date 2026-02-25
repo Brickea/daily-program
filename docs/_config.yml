@@ -1,3 +1,12 @@
-title: Daily Programming
-description: 每日编程语言学习笔记
-theme: minima
+# GitHub Pages Configuration for Daily Programming Learning
+# ============================================================
+
+# Site settings
+title: "📚 Daily Programming Learning"
+description: "系统化学习 Java、Python、Go、Ruby 四门主流编程语言 - 每日编程学习文档"
+
+# Theme - using GitHub's minimal theme for better compatibility
+theme: jekyll-theme-minimal
+
+# Build settings
+markdown: kramdown

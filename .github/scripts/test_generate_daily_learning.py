@@ -64,7 +64,7 @@ class TestGenerateDailyDoc(unittest.TestCase):
         self.assertIn('[Java 权威信息源](../README.md#权威信息源)', content)
 
     def test_generate_existing_doc(self):
-        """Test that existing docs are not overwritten."""
+        """Test that existing docs are overwritten."""
         today = '2026-02-25'
 
         # Create the file first
@@ -73,14 +73,15 @@ class TestGenerateDailyDoc(unittest.TestCase):
         file_path = doc_dir / f'{today}.md'
         file_path.write_text('Existing content', encoding='utf-8')
 
-        # Try to generate again
+        # Try to generate again - should overwrite
         result = generate_daily_doc('java', today)
 
-        self.assertFalse(result)
+        self.assertTrue(result)
 
-        # Check content wasn't changed
+        # Check content was changed
         content = file_path.read_text(encoding='utf-8')
-        self.assertEqual(content, 'Existing content')
+        self.assertIn('# Java 今日学习（2026-02-25）', content)
+        self.assertNotEqual(content, 'Existing content')
 
     def test_chinese_characters_encoding(self):
         """Test that Chinese characters are properly encoded."""
@@ -153,7 +154,7 @@ class TestMain(unittest.TestCase):
                 del os.environ['GITHUB_OUTPUT']
 
     def test_main_no_new_files(self):
-        """Test that main returns 1 when no new files are created."""
+        """Test that main returns 0 even when files already exist (overwriting)."""
         # Pre-create all files
         today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
         for lang in ['java', 'python', 'go', 'ruby']:
@@ -164,8 +165,14 @@ class TestMain(unittest.TestCase):
 
         exit_code = main()
 
-        # Should return 1 (no new files)
-        self.assertEqual(exit_code, 1)
+        # Should return 0 (files are overwritten)
+        self.assertEqual(exit_code, 0)
+
+        # Check files were overwritten
+        for lang in ['java', 'python', 'go', 'ruby']:
+            file_path = Path(f'docs/{lang}/daily/{today}.md')
+            content = file_path.read_text(encoding='utf-8')
+            self.assertNotEqual(content, 'Existing')
 
 
 if __name__ == '__main__':
