@@ -36,6 +36,11 @@ jobs:
           cd .github/scripts
           python -m unittest test_generate_daily_feedback.py -v
 
+      - name: Run tests for validate_all.py
+        run: |
+          cd .github/scripts
+          python -m unittest test_validate_all.py -v
+
       - name: Validate workflow YAML syntax
         run: |
           python -c "
