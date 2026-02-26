@@ -140,8 +140,10 @@ languages:
         self.assertIn('Test Source', content)
         self.assertIn('2026-02-25', content)
         self.assertIn('Test summary', content)
+        self.assertIn('## 今日学习标准流程', content)
         self.assertIn('## 学习计划', content)
         self.assertIn('### 入门', content)
+        self.assertIn('## 每日学习反馈', content)
 
     def test_generate_daily_doc_no_items(self):
         """Test daily document generation with no items."""

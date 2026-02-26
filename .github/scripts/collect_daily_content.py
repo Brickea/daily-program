@@ -4,7 +4,7 @@
 import os
 import sys
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from collections import defaultdict
 import yaml
@@ -168,6 +168,13 @@ def generate_daily_doc(lang, today, items, config):
         f"",
         f"# {lang_title} 今日学习（{today}）",
         f"",
+        f"## 今日学习标准流程",
+        f"",
+        f"1. **信息收集**：浏览下方「今日推荐内容」，了解 {lang_title} 社区最新动态",
+        f"2. **目标制定**：根据推荐内容，在「学习计划」中填写今日入门/进阶/高级目标",
+        f"3. **学习执行**：按计划完成学习，记录笔记与心得",
+        f"4. **反馈记录**：在「每日学习反馈」中总结收获、问题与明日计划",
+        f"",
     ]
 
     # Add TOC if there are items
@@ -179,12 +186,14 @@ def generate_daily_doc(lang, today, items, config):
 
         content_parts.append(f"## 目录")
         content_parts.append(f"")
+        content_parts.append(f"- [今日学习标准流程](#今日学习标准流程)")
         content_parts.append(f"- [今日推荐内容](#今日推荐内容)")
         for source_name in items_by_source.keys():
             # Create anchor-friendly version of source name
             anchor = source_name.replace(' ', '-').replace('(', '').replace(')', '').lower()
             content_parts.append(f"  - [{source_name}](#{anchor})")
         content_parts.append(f"- [学习计划](#学习计划)")
+        content_parts.append(f"- [每日学习反馈](#每日学习反馈)")
         content_parts.append(f"- [参考资料](#参考资料)")
         content_parts.append(f"")
 
@@ -240,6 +249,17 @@ def generate_daily_doc(lang, today, items, config):
         f"- [ ] 今日目标：",
         f"- [ ] 笔记：",
         f"",
+        f"## 每日学习反馈",
+        f"",
+        f"### 今日收获",
+        f"- ",
+        f"",
+        f"### 遇到的问题",
+        f"- ",
+        f"",
+        f"### 明日计划",
+        f"- ",
+        f"",
         f"## 参考资料",
         f"- 参见 [{lang_title} 权威信息源](../README.md#权威信息源)",
         f""
@@ -261,8 +281,9 @@ def main():
     # Load configuration
     config = load_config()
 
-    # Get today's date in UTC
-    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    # Get today's date in Beijing time (UTC+8)
+    BEIJING_TZ = timezone(timedelta(hours=8))
+    today = datetime.now(BEIJING_TZ).strftime('%Y-%m-%d')
 
     # Languages to generate docs for
     languages = ['java', 'python', 'go', 'ruby']

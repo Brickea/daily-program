@@ -3,7 +3,7 @@
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 
@@ -65,8 +65,9 @@ title: "{lang_title} 今日学习（{today}）"
 
 def main():
     """Main function."""
-    # Get today's date in UTC
-    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    # Get today's date in Beijing time (UTC+8)
+    BEIJING_TZ = timezone(timedelta(hours=8))
+    today = datetime.now(BEIJING_TZ).strftime('%Y-%m-%d')
 
     # Languages to generate docs for
     languages = ['java', 'python', 'go', 'ruby']
