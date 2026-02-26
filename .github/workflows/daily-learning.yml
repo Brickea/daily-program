@@ -2,7 +2,7 @@ name: Daily Learning Docs
 
 on:
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
       - name: Collect and generate daily docs
         id: generate
         env:
-          TZ: UTC
+          TZ: Asia/Shanghai
         run: python .github/scripts/collect_daily_content.py
 
       - name: Generate archive index
